@@ -1,4 +1,4 @@
-﻿param(
+param(
 [Parameter(Mandatory=$true)][string]$primary_subscription_Id, #Enter the Subscription Id where the Private dns zone is existing
 [Parameter(Mandatory=$true)][string]$resource_group_name,     #Enter the resourcegroup name of the Private dns zone
 [Parameter(Mandatory=$true)][string]$zone_name,               #Enter the name of the private dns zone
