@@ -1,0 +1,29 @@
+name: storage with dns failback
+on: workflow_dispatch
+jobs:  
+  job1:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest       
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2 
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_Deloitte}}
+        enable-AzPSSession: true   
+    - name: Invoke storage failover and set GRS
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          ./Invoke_Failover_Storage_multi-values_param.ps1 -resource_group_name "${{vars.STORAGEACCOUNT_RESOURCE_GROUP_NAME}}" -storageaccount_names "${{vars.STORAGEACCOUNT_NAMES}}" -sku "${{vars.STORAGE_SKU}}"  
+        azPSVersion: "latest"
+      
+    - name: Update recordset of Private DNS Zone
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          ./Update_DNS_Records_IPs.ps1 -primary_subscription_Id "${{vars.PRIVATE_DNS_ZONE_SUBSCRIPTION_ID}}" -resource_group_name "${{vars.PRIVATE_DNS_ZONE_RESOURCE_GROUP_NAME}}" -zone_name "${{vars.PRIVATE_DNZ_ZONE_NAME}}" -record_name "${{vars.STORAGE_ACCOUNT_1_PRIVATE_DNS_ZONE_RECORD_NAME}}" -newIP "${{vars.STORAGE_ACCOUNT_1_PRIMARY_PRIVATE_ENDPOINT_IP}}" -oldIP "${{vars.STORAGE_ACCOUNT_1_SECONDARY_PRIVATE_ENDPOINT_IP}}"
+          ./Update_DNS_Records_IPs.ps1 -primary_subscription_Id "${{vars.PRIVATE_DNS_ZONE_SUBSCRIPTION_ID}}" -resource_group_name "${{vars.PRIVATE_DNS_ZONE_RESOURCE_GROUP_NAME}}" -zone_name "${{vars.PRIVATE_DNZ_ZONE_NAME}}" -record_name "${{vars.STORAGE_ACCOUNT_2_PRIVATE_DNS_ZONE_RECORD_NAME}}" -newIP "${{vars.STORAGE_ACCOUNT_2_PRIMARY_PRIVATE_ENDPOINT_IP}}" -oldIP "${{vars.STORAGE_ACCOUNT_2_SECONDARY_PRIVATE_ENDPOINT_IP}}" 
+        azPSVersion: "latest"
