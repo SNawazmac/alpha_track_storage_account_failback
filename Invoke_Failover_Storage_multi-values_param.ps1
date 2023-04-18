@@ -1,11 +1,11 @@
 param(
 [Parameter(Mandatory=$true)][string]$storage_account_resource_group_name,       #Enter the resourcegroup name of the Storageaccount
-[Parameter(Mandatory=$true)][array]$storageaccount_names_private,       #Enter the storage account name(s) on which failover has to be initiated
+[Parameter(Mandatory=$true)][array]$private_storageaccount_names,       #Enter the storage account name(s) on which failover has to be initiated
 [Parameter(Mandatory=$true)][string]$sku                        #Enter the SKU as Standard_GRS to re-enable geo-replication post failover
 )
 
  
-$storageaccounts = $storageaccount_names_private.split(",")
+$storageaccounts = $private_storageaccount_names.split(",")
 foreach($storageaccount_name in $storageaccounts)
 {
 #Below command Invokes failover on the selected storage account(s)
