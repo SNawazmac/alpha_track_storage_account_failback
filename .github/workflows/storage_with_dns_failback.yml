@@ -43,7 +43,7 @@ jobs:
     - name: Login via Az module
       uses: azure/login@v1
       with:
-        creds: ${{secrets.AZURE_CREDENTIALS_Deloitte}}
+        creds: ${{secrets.AZURE_CREDENTIALS_DELOITTE_SUB}}
         enable-AzPSSession: true   
     - name: Invoke storage failover and set GRS
       uses: azure/powershell@v1
