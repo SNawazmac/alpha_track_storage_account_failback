@@ -49,7 +49,8 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-         ./Invoke_Failover_Storage_multi-values_param.ps1 -storage_account_resource_group_name "${{inputs.storage_account_resource_group_name}}" -private_storage_account_names "${{inputs.private_storage_account_names}}" -sku "${{inputs.sku}}"  
+         ls
+        #./Invoke_Failover_Storage_multi-values_param.ps1 -storage_account_resource_group_name "${{inputs.storage_account_resource_group_name}}" -private_storage_account_names "${{inputs.private_storage_account_names}}" -sku "${{inputs.sku}}"  
         azPSVersion: "latest"
       
     - name: Update recordset of Private DNS Zone
