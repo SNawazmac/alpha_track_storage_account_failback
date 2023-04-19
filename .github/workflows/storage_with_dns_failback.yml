@@ -1,5 +1,37 @@
 name: storage with dns failback
-on: workflow_dispatch
+on:
+  workflow_call:
+    inputs:
+      storage_account_resource_group_name:
+        required: true
+        type: string
+      private_storage_account_names: 
+        type: string
+        required: true
+      sku:
+        required: true
+        type: string  
+      primary_subscription_Id:
+        required: true
+        type: string
+      private_dns_zone_resource_group_name:
+        required: true
+        type: string
+      storage_account_private_dns_zone_record_name:
+        required: true
+        type: string
+      storage_account_private_dns_zone_name:
+        required: true
+        type: string
+      storage_account_primary_private_endpoint_IP:
+        required: true
+        type: string
+      storage_account_secondary_private_endpoint_IP:
+        required: true
+        type: string  
+    secrets:
+      AZURE_CREDENTIALS_DELOITTE_SUB:
+        required: true
 jobs:  
   job1:
     permissions:
