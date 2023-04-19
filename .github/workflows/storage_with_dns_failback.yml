@@ -49,7 +49,7 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          ./Invoke_Failover_Storage_multi-values_param.ps1 -storage_account_resource_group_name "${{vars.STORAGE_ACCOUNT_RESOURCE_GROUP_NAME}}" -private_storage_account_names "${{vars.PRIVATE_STORAGE_ACCOUNT_NAMES}}" -sku "${{vars.STORAGE_SKU}}"  
+         ./Invoke_Failover_Storage_multi-values_param.ps1 -storage_account_resource_group_name "${{vars.STORAGE_ACCOUNT_RESOURCE_GROUP_NAME}}" -private_storage_account_names "${{vars.PRIVATE_STORAGE_ACCOUNT_NAMES}}" -sku "${{vars.STORAGE_SKU}}"  
         azPSVersion: "latest"
       
     - name: Update recordset of Private DNS Zone
