@@ -49,13 +49,13 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-         ./Invoke_Failover_Storage_multi-values_param.ps1 -storage_account_resource_group_name "${{vars.STORAGE_ACCOUNT_RESOURCE_GROUP_NAME}}" -private_storage_account_names "${{vars.PRIVATE_STORAGE_ACCOUNT_NAMES}}" -sku "${{vars.STORAGE_SKU}}"  
+         ./Invoke_Failover_Storage_multi-values_param.ps1 -storage_account_resource_group_name "${{inputs.storage_account_resource_group_name}}" -private_storage_account_names "${{inputs.private_storage_account_names}}" -sku "${{inputs.sku}}"  
         azPSVersion: "latest"
       
     - name: Update recordset of Private DNS Zone
       uses: azure/powershell@v1
       with:
         inlineScript: |
-         ./Update_DNS_Records_IPs.ps1 -primary_subscription_Id "${{vars.PRIVATE_DNS_ZONE_SUBSCRIPTION_ID}}" -private_dns_zone_resource_group_name "${{vars.PRIVATE_DNS_ZONE_RESOURCE_GROUP_NAME}}" -storage_account_private_dns_zone_name "${{vars.PRIVATE_DNS_ZONE_NAME}}" -storage_account_private_dns_zone_record_name "${{vars.STORAGE_ACCOUNT_1_PRIVATE_DNS_ZONE_RECORD_NAME}}" -newIP "${{vars.STORAGE_ACCOUNT_1_PRIMARY_PRIVATE_ENDPOINT_IP}}" -oldIP "${{vars.STORAGE_ACCOUNT_1_SECONDARY_PRIVATE_ENDPOINT_IP}}"
+         ./Update_DNS_Records_IPs.ps1 -primary_subscription_Id "${{inputs.primary_subscription_Id}}" -private_dns_zone_resource_group_name "${{inputs.private_dns_zone_resource_group_name}}" -storage_account_private_dns_zone_name "${{inputs.storage_account_private_dns_zone_name}}" -storage_account_private_dns_zone_record_name "${{inputs.storage_account_private_dns_zone_record_name}}" -storage_account_primary_private_endpoint_IP "${{inputs.storage_account_primary_private_endpoint_IP}}" -storage_account_secondary_private_endpoint_IP "${{inputs.storage_account_primary_private_endpoint_IP}}"
         #./Update_DNS_Records_IPs.ps1 -primary_subscription_Id "${{vars.PRIVATE_DNS_ZONE_SUBSCRIPTION_ID}}" -private_dns_zone_resource_group_name "${{vars.PRIVATE_DNS_ZONE_RESOURCE_GROUP_NAME}}" -storage_account_private_dns_zone_name "${{vars.PRIVATE_DNS_ZONE_NAME}}" -storage_account_private_dns_zone_record_name "${{vars.STORAGE_ACCOUNT_2_PRIVATE_DNS_ZONE_RECORD_NAME}}" -newIP "${{vars.STORAGE_ACCOUNT_2_PRIMARY_PRIVATE_ENDPOINT_IP}}" -oldIP "${{vars.STORAGE_ACCOUNT_2_SECONDARY_PRIVATE_ENDPOINT_IP}}" 
         azPSVersion: "latest"
