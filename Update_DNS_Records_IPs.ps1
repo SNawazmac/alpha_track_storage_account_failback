@@ -1,5 +1,5 @@
 param(
-[Parameter(Mandatory=$true)][string]$primary_subscription_Id, #Enter the Subscription Id where the Private dns zone is existing
+[Parameter(Mandatory=$true)][string]$private_dns_zone_subscription_Id, #Enter the Subscription Id where the Private dns zone is existing
 [Parameter(Mandatory=$true)][string]$private_dns_zone_resource_group_name,     #Enter the resourcegroup name of the Private dns zone
 [Parameter(Mandatory=$true)][string]$storage_account_private_dns_zone_name,               #Enter the name of the private dns zone
 [Parameter(Mandatory=$true)][string]$storage_account_private_dns_zone_record_name,             #Enter the name of the recordname to be updated
@@ -8,7 +8,7 @@ param(
 )
 
 #The below command sets authentication information for cmdlets that run in the current session
-Set-AzContext -Subscription $primary_subscription_Id
+Set-AzContext -Subscription $private_dns_zone_subscription_Id
 
 #The below commands adds the new IP to the DNS recordset
 $RecordSet = Get-AzPrivateDnsRecordSet -ResourceGroupName $private_dns_zone_resource_group_name -ZoneName $storage_account_private_dns_zone_name -Name $storage_account_private_dns_zone_record_name -RecordType A
