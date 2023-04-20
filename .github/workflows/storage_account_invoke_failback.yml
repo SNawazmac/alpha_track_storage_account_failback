@@ -1,0 +1,37 @@
+name: storage account invoke failback
+on:
+  workflow_call:
+    inputs:
+      storage_account_resource_group_name:
+        required: true
+        type: string
+      private_storage_account_names: 
+        type: string
+        required: true
+      sku:
+        required: true
+        type: string  
+    secrets:
+      AZURE_CREDENTIALS_DELOITTE_SUB:
+        required: true
+jobs:  
+  Invoke_storage_account_failback:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest       
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+      with:
+        repository: SNawazmac/storage_account_failback
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_DELOITTE_SUB}}
+        enable-AzPSSession: true   
+    - name: Invoke storage account failback and set redundancy to GRS
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+         ./Invoke_Storage_Account_Failback.ps1 -storage_account_resource_group_name "${{inputs.storage_account_resource_group_name}}" -private_storage_account_names "${{inputs.private_storage_account_names}}" -sku "${{inputs.sku}}"  
+        azPSVersion: "latest"
